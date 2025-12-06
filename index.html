@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <h1><center><b>Department of Computer Applications<b></b></center></h1>
+  <h1><center>Vignan University</center><br>
+  <title>Internship Record Management Portal</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#295592cc;--accent:#06b6d4;--glass:rgba(255,255,255,0.04)}
+    *{box-sizing:border-box;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+    body{margin:0;background:linear-gradient(180deg,#000000 0%, #2e38c5 100%);color:#f3efef;min-height:100vh;padding:20px}
+    .wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 380px;gap:20px}
+    header{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between}
+    h1{font-size:20px;margin:0}
+    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 4px 20px rgba(129, 142, 187, 0.699);border:1px solid rgba(63, 51, 136, 0.02)}
+    form .row{display:flex;gap:8px}
+    label{font-size:12px;color:var#000000;display:block;margin-bottom:6px}
+    input,select,textarea{width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(243, 240, 240, 0.04);background:var(--glass);color:inherit}
+    .btn{background:var(--accent);border:none;color:#012;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
+    .muted{color:var(--muted);font-size:13px}
+    .records{max-height:520px;overflow:auto;margin-top:12px}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th,td{padding:8px 6px;text-align:left;border-bottom:1px dashed rgba(255,255,255,0.03)}
+    th{color:var(--muted);font-weight:600}
+    .controls{display:flex;gap:8px;flex-wrap:wrap}
+    .filters{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .stats{display:flex;flex-direction:column;gap:8px}
+    .stat-row{display:flex;align-items:center;justify-content:space-between}
+    small{color:var(--muted)}
+    .preview{max-height:80px;max-width:120px;object-fit:contain;border-radius:6px;border:1px solid rgba(255,255,255,0.03)}
+    .top-actions{display:flex;gap:8px}
+    footer{grid-column:1/-1;margin-top:12px;text-align:center;color:#ef4444;font-size:30px}
+    footer1{grid-column:1/-1;margin-top:12px;text-align:center;color:color: #ffffff;
+;font-size:20px}
+    @media(max-width:980px){.wrap{grid-template-columns:1fr;}.card{padding:12px}.records{max-height:280px}}<style>
+/* Dropdown box style */
+select {
+    background-color: #0b1220;
+    color: #00eaff;
+    border: 1px solid #2a3b5f;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+/* Dropdown option style */
+select option {
+    background-color: #0b1220; /* option background */
+    color: #00eaff;            /* option text color */
+}
+</style>
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Internship Record Management Portal</h1>
+      <div class="top-actions">
+        <button class="btn" id="exportCsv">Export CSV</button>
+        <button class="btn" id="exportJson">Export JSON</button>
+        <button class="btn" id="printReport">Print Report</button>
+      </div>
+    </header>
+
+    <!-- Left: Form + List -->
+    <section>
+      <div class="card">
+        <h3 style="margin-top:0">Add / Edit Internship</h3>
+        <form id="internForm">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div>
+              <label>Student Name</label>
+              <input required id="studentName" placeholder="Full name">
+            </div>
+            <div>
+              <label>Register No.</label>
+              <input required id="regNo" placeholder="e.g. 20XXCS001">
+            </div>
+            <div>
+               
+<select id="dept">
+  <option value="">Select Department</option>
+  <option>MCA</option>
+  <option>BCA</option>
+</select>
+
+            </div>
+            <div>
+              <label>Year</label>
+              <select id="year">
+                <option>1</option><option>2</option><option>3</option><option>4</option>
+              </select>
+            </div>
+            <div>
+              <label>Section</label>
+              <input id="section" placeholder="A">
+            </div>
+            <div>
+              <label>Company</label>
+              <input id="company" placeholder="Company name">
+            </div>
+            <div>
+              <label>Start Date</label>
+              <input type="date" id="startDate">
+            </div>
+            <div>
+              <label>End Date</label>
+              <input type="date" id="endDate">
+            </div>
+            <div style="grid-column:1/3">
+              <label>Domain</label>
+              <input id="domain" placeholder="Web Development / Data Science">
+            </div>
+            <div>
+              <label>Mode</label>
+              <select id="mode"><option>Online</option><option>Offline</option><option>Hybrid</option></select>
+            </div>
+            <div>
+              <label>Certificate (screenshot / PDF)</label>
+              <input type="file" id="certFile" accept="image/*,application/pdf">
+            </div>
+          </div>
+
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="btn" type="submit">Save Record</button>
+            <button type="button" id="clearForm" style="background:#334155;color:#fff;border-radius:8px;padding:8px 12px">Clear</button>
+            <span class="muted" id="formStatus"></span>
+          </div>
+        </form>
+
+        <div style="margin-top:12px">
+          <h4 style="margin:8px 0 6px">Records</h4>
+          <div class="controls">
+            <div class="filters" style="flex:1">
+              <input id="filterYear" placeholder="Filter by Year (e.g. 3)">
+              <input id="filterCompany" placeholder="Filter by Company">
+            </div>
+            <div style="flex:0.8;display:flex;gap:8px;align-items:center">
+              <input id="search" placeholder="Search name / reg no / domain" style="flex:1;padding:8px;border-radius:8px;background:var(--glass);border:1px solid rgba(255,255,255,0.03)">
+              <button id="applyFilters" class="btn">Apply</button>
+              <button id="resetFilters" style="background:#334155;color:#fff;padding:8px;border-radius:8px">Reset</button>
+            </div>
+          </div>
+
+          <div class="records" id="recordsList">
+            <!-- table inserted here -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: Stats -->
+    <aside>
+      <div class="card">
+        <h3 style="margin-top:0">Dashboard</h3>
+        <div class="stats" id="statsPanel">
+          <div class="stat-row"><div><strong id="totalRecords">0</strong><div class="muted">Total records</div></div><div></div></div>
+          <div class="stat-row"><div><strong id="completedCount">0</strong><div class="muted">Completed internships</div></div></div>
+          <div class="stat-row"><div><strong id="withCert">0</strong><div class="muted">Certificates uploaded</div></div></div>
+          <hr style="border:none;border-top:1px dashed rgba(255,255,255,0.03)">
+          <h4 style="margin:6px 0">Company-wise counts</h4>
+          <div id="companyCounts" style="display:flex;flex-direction:column;gap:6px;max-height:220px;overflow:auto"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <h3 style="margin-top:0">Quick Actions</h3>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button id="loadSample" class="btn">Load Sample Data</button>
+          <button id="clearAll" style="background:#ef4444;color:#fff;border-radius:8px;padding:8px">Clear All Records</button>
+        </div>
+      </div>
+    </aside>
+    <footer><b>Developed By:</b></footer>
+      <footer1><center>Rajesh  251FD01020<br>Varshitha  251FD01036<br>Khajavali  251FD01053</center></footer1>
+  </div>
+
+  
+</body>
+</html>
